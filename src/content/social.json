@@ -1,0 +1,24 @@
+{
+  "links": [
+    {
+      "platform": "twitter",
+      "url": "https://twitter.com",
+      "icon": "fab fa-twitter"
+    },
+    {
+      "platform": "github",
+      "url": "https://github.com",
+      "icon": "fab fa-github"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com",
+      "icon": "fab fa-linkedin"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://instagram.com",
+      "icon": "fab fa-instagram"
+    }
+  ]
+}

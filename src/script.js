@@ -1,13 +1,17 @@
-// Site-specific code - uses generic asset-loader module
+/**
+ * Main script file - initializes the site by loading assets and handlers
+ */
 import { loadSiteAssets } from './asset-loader.js';
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', async function () {
-    try {
-        await loadSiteAssets(() => {
-            // Add code that should run after all assets are loaded
-        });
-    } catch (error) {
-        console.error('Error initializing site:', error);
-    }
+// Initialize site when DOM is ready
+document.addEventListener('DOMContentLoaded', async function() {
+  try {
+    console.log('Loading site assets...');
+    await loadSiteAssets(() => {
+      console.log('All assets and handlers loaded successfully!');
+    });
+  } catch (error) {
+    console.error('Error initializing site:', error);
+  }
 });
+

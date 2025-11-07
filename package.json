@@ -1,8 +1,8 @@
 {
-  "name": "static-site-template",
+  "name": "modern-blog-template",
   "version": "1.0.0",
   "type": "module",
-  "description": "Static site template with JSON-based content management",
+  "description": "Modern blog static site template with dynamic asset loading and JSON-based content management",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
