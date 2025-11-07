@@ -189,7 +189,28 @@ async function loadSimpleDirectoryAssets(asset) {
     const files = [];
     const dirPath = asset.path;
 
-    // Similar directory listing logic for simple assets
+    // Try to load manifest.json first (needed for GitHub Pages where directory listing isn't available)
+    try {
+        const manifestResponse = await fetch(`${dirPath}/manifest.json`);
+        if (manifestResponse.ok) {
+            const manifest = await manifestResponse.json();
+            if (manifest.files && Array.isArray(manifest.files)) {
+                // Use files from manifest
+                manifest.files.forEach(filename => {
+                    const ext = filename.substring(filename.lastIndexOf('.'));
+                    if (asset.contains.allowedExtensions.includes(ext)) {
+                        files.push(`${dirPath}/${filename}`);
+                    }
+                });
+                return files;
+            }
+        }
+    } catch (error) {
+        // Manifest not found, try directory listing
+        console.log(`No manifest found at ${dirPath}/manifest.json, trying directory listing`);
+    }
+
+    // Fallback to directory listing (works in local dev with some servers)
     try {
         const response = await fetch(dirPath);
         if (!response.ok) return files;
