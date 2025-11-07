@@ -189,29 +189,26 @@ async function loadSimpleDirectoryAssets(asset) {
     const files = [];
     const dirPath = asset.path;
 
-    // Similar directory listing logic for simple assets
+    // Load manifest.json to discover files in the directory
     try {
-        const response = await fetch(dirPath);
-        if (!response.ok) return files;
-
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const links = doc.querySelectorAll('a');
-
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && !href.startsWith('..') && !href.endsWith('/')) {
-                // Extract just the filename from the href
-                const filename = href.split('/').pop();
-                const ext = filename.substring(filename.lastIndexOf('.'));
-                if (asset.contains.allowedExtensions.includes(ext)) {
-                    files.push(`${dirPath}/${filename}`);
-                }
+        const manifestResponse = await fetch(`${dirPath}/manifest.json`);
+        if (manifestResponse.ok) {
+            const manifest = await manifestResponse.json();
+            if (manifest.files && Array.isArray(manifest.files)) {
+                // Use files from manifest
+                manifest.files.forEach(filename => {
+                    const ext = filename.substring(filename.lastIndexOf('.'));
+                    if (asset.contains.allowedExtensions.includes(ext)) {
+                        files.push(`${dirPath}/${filename}`);
+                    }
+                });
+                return files;
             }
-        });
+        } else {
+            console.warn(`No manifest.json found at ${dirPath}/manifest.json`);
+        }
     } catch (error) {
-        console.warn(`Failed to load directory ${dirPath}:`, error);
+        console.error(`Failed to load manifest from ${dirPath}/manifest.json:`, error);
     }
 
     return files;
