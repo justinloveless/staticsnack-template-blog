@@ -1,5 +1,146 @@
 {
   "version": "1.0",
-  "description": "Configuration file defining manageable assets",
-  "assets": []
+  "description": "Blog template assets configuration",
+  "assets": [
+    {
+      "path": "content/blog-config.json",
+      "type": "json",
+      "label": "Blog Configuration",
+      "description": "Blog name, tagline, and general configuration",
+      "handler": "handlers/blog-config.js",
+      "maxSize": 5120,
+      "allowedExtensions": [".json"],
+      "schema": {
+        "type": "object",
+        "required": ["blogName"],
+        "properties": {
+          "blogName": {
+            "type": "string",
+            "description": "Name of the blog"
+          },
+          "tagline": {
+            "type": "string",
+            "description": "Blog tagline or slogan"
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the blog"
+          }
+        }
+      }
+    },
+    {
+      "path": "content/hero.json",
+      "type": "json",
+      "label": "Hero Section",
+      "description": "Hero section title and subtitle",
+      "handler": "handlers/hero.js",
+      "maxSize": 2048,
+      "allowedExtensions": [".json"],
+      "schema": {
+        "type": "object",
+        "required": ["title", "subtitle"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Main hero title"
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "Hero subtitle or description"
+          }
+        }
+      }
+    },
+    {
+      "path": "content/author.json",
+      "type": "json",
+      "label": "Author Information",
+      "description": "Author bio, avatar, and contact information",
+      "handler": "handlers/author.js",
+      "maxSize": 10240,
+      "allowedExtensions": [".json"],
+      "schema": {
+        "type": "object",
+        "required": ["name", "bio"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Author's full name"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Author biography"
+          },
+          "role": {
+            "type": "string",
+            "description": "Author's role or title"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to author's avatar image"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Author's email address"
+          },
+          "location": {
+            "type": "string",
+            "description": "Author's location"
+          }
+        }
+      }
+    },
+    {
+      "path": "content/social.json",
+      "type": "json",
+      "label": "Social Links",
+      "description": "Social media links for the blog",
+      "handler": "handlers/social.js",
+      "maxSize": 5120,
+      "allowedExtensions": [".json"],
+      "schema": {
+        "type": "object",
+        "required": ["links"],
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["platform", "url", "icon"],
+              "properties": {
+                "platform": {
+                  "type": "string",
+                  "description": "Social media platform name"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL to the social media profile"
+                },
+                "icon": {
+                  "type": "string",
+                  "description": "Font Awesome icon class"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "posts",
+      "type": "directory",
+      "label": "Blog Posts",
+      "description": "Directory containing all blog post JSON files",
+      "handler": "handlers/posts.js",
+      "contains": {
+        "type": "json",
+        "allowedExtensions": [".json"],
+        "maxSize": 102400
+      }
+    }
+  ]
 }
